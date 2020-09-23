@@ -20,7 +20,7 @@ CREATE VIEW "active_user" AS
   FROM "user"
   WHERE "deleted_at" IS NULL;
 
-CREATE FUNCTION "set_updated_at"() RETURNS trigger AS
+CREATE FUNCTION "set_updated_at"() RETURNS TRIGGER AS
 $$
   BEGIN
     NEW."updated_at" := CURRENT_TIMESTAMP;
@@ -29,7 +29,7 @@ $$
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER "user_update"
-  AFTER UPDATE ON "user"
+  BEFORE UPDATE ON "user"
   FOR EACH ROW
   WHEN (OLD.* IS DISTINCT FROM NEW.*)
   EXECUTE FUNCTION "set_updated_at"();

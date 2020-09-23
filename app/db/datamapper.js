@@ -12,6 +12,19 @@ class DataMapper {
     const result = await db.query(query);
     return result.rows[0];
   }
+
+  static async findOne(filter) {
+    const query = {
+      text: `SELECT *
+             FROM "find_${this.tableName}"($1)
+             ORDER BY "id" DESC
+             LIMIT 1`,
+      values: [filter]
+    };
+
+    const result = await db.query(query);
+    return result.rows[0];
+  }
 }
 
 module.exports = DataMapper;

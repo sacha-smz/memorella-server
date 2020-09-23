@@ -2,3 +2,4 @@
 %project=memorella
 
 2020_09_22_1500_create_user_table 2020-09-22T12:50:11Z sacha-smz <sacha.zacaropoulos@gmail.com> # Creates user table
+2020_09_23_1500_create_find_user_function 2020-09-23T20:50:45Z sacha-smz <sacha.zacaropoulos@gmail.com> # Add find_user function

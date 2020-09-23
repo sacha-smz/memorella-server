@@ -5,7 +5,8 @@
   "main": "www/index.js",
   "scripts": {
     "dev": "nodemon www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write './app/**/*.*'"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,12 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "joi": "^17.2.1",
-    "pg": "^8.3.3"
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.3.3",
+    "redis": "^3.0.2",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

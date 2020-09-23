@@ -3,7 +3,10 @@ const errorMap = new Map([
   ["23503", { msg: "SQL - Foreign key constraint violation", code: 409 }],
   ["42601", { msg: "SQL - Syntax error" }],
   ["ENOENT", { msg: "File access error, the path does not exist" }],
-  ["ENOTDIR", { msg: "File access error, the path does not correspond to a directory" }]
+  ["ENOTDIR", { msg: "File access error, the path does not correspond to a directory" }],
+  ["credentials_required", { msg: "The access token is missing", code: 401 }],
+  ["invalid_token", { msg: "The access token is invalid", code: 403 }],
+  ["revoked_token", { msg: "The access token is no longer valid", code: 403 }]
 ]);
 
 module.exports = (errors, _, res, __) => {
@@ -27,5 +30,5 @@ module.exports = (errors, _, res, __) => {
 
   res.json({ errors });
 
-  console.log({ errors, status: res.statusCode });
+  console.error({ errors, status: res.statusCode });
 };
