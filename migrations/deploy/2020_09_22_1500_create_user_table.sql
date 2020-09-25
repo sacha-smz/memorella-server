@@ -34,4 +34,55 @@ CREATE TRIGGER "user_update"
   WHEN (OLD.* IS DISTINCT FROM NEW.*)
   EXECUTE FUNCTION "set_updated_at"();
 
+CREATE FUNCTION "where"("filter" JSON DEFAULT '{}')
+RETURNS TEXT AS
+$$
+DECLARE
+  "clause" TEXT := '';
+  "field" TEXT;
+  "detail" JSON;
+  "it" INT := 0;
+BEGIN
+  FOR "field", "detail" IN SELECT * FROM json_each("filter")
+  LOOP
+    IF "it" = 0 THEN
+      "clause" := "clause" || ' WHERE ';
+      "it" := "it" + 1;
+    ELSE
+      "clause" := "clause" || ' AND ';
+    END IF;
+
+    "clause" := "clause" || format('%I %s', "field", detail->>'op');
+
+    IF(("detail"->>'val') IS NOT NULL) THEN
+      "clause" := "clause" || format(' %L', detail->>'val');
+    END IF;
+  END LOOP;
+
+  RETURN "clause";
+END
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+CREATE FUNCTION "find_user"("filter" JSON DEFAULT '{}')
+RETURNS SETOF "user" AS
+$$
+DECLARE
+  "query" TEXT := 'SELECT * FROM "active_user"';
+BEGIN
+  "query" := "query" || "where"("filter");
+  RETURN QUERY EXECUTE "query";
+END
+$$ LANGUAGE plpgsql STABLE;
+
+CREATE PROCEDURE "delete_user"("filter" JSON DEFAULT '{}')
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  "query" TEXT := 'UPDATE "user" SET "deleted_at" = CURRENT_TIMESTAMP';
+BEGIN
+  "query" := "query" || "where"("filter");
+  EXECUTE query;
+END
+$$;
+
 COMMIT;
