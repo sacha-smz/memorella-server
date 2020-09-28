@@ -48,7 +48,7 @@ const utils = {
   },
 
   revokeUserRefreshToken: async user => {
-    return await redis.hdel("refresh_tokens_", user.id);
+    return await redis.hdel("refresh_tokens", user.id);
   },
 
   isRevokedToken: async payload => {
@@ -65,12 +65,8 @@ function verifyToken(type, token) {
   });
 }
 
-function getPayload(user) {
-  return {
-    id: user.id,
-    email: user.email,
-    jti: uuidv4()
-  };
+function getPayload({ id, email, is_admin }) {
+  return { id, email, is_admin, jti: uuidv4() };
 }
 
 module.exports = utils;

@@ -4,3 +4,5 @@
 2020_09_22_1500_create_user_table 2020-09-22T12:50:11Z sacha-smz <sacha.zacaropoulos@gmail.com> # Creates user table
 2020_09_25_1100_create_deck_table 2020-09-25T09:06:34Z sacha-smz <sacha.zacaropoulos@gmail.com> # Create deck table
 2020_09_25_1130_create_card_table 2020-09-25T09:11:35Z sacha-smz <sacha.zacaropoulos@gmail.com> # Create card table
+2020_09_28_1500_create_insert_deck_function 2020-09-28T15:50:15Z sacha-smz <sacha.zacaropoulos@gmail.com> # Add insert_deck function
+2020_09_29_1500_create_display_deck_function 2020-09-29T15:19:34Z sacha-smz <sacha.zacaropoulos@gmail.com> # Add display_deck function

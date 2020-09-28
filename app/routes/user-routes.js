@@ -6,11 +6,11 @@ const validator = require("../middlewares/validator");
 const userSchema = require("../schemas/user-schema");
 const userController = require("../controllers/user-controller");
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.post("/", validator(userSchema), userController.signup);
-router.get("/private", authMiddleware(), (_, res) => {
+userRouter.post("/", validator(userSchema), userController.signup);
+userRouter.get("/private", authMiddleware(), (_, res) => {
   res.json({ data: "Welcome to this private area" });
 });
 
-module.exports = router;
+module.exports = userRouter;

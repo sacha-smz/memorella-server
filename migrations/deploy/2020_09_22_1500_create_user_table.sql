@@ -52,10 +52,14 @@ BEGIN
       "clause" := "clause" || ' AND ';
     END IF;
 
-    "clause" := "clause" || format('%I %s', "field", detail->>'op');
+    if(("detail"->>'table') IS NOT NULL) THEN
+      "clause" := "clause" || format('%I.', "detail"->>'table');
+    END IF;
+
+    "clause" := "clause" || format('%I %s', "field", "detail"->>'op');
 
     IF(("detail"->>'val') IS NOT NULL) THEN
-      "clause" := "clause" || format(' %L', detail->>'val');
+      "clause" := "clause" || format(' %L', "detail"->>'val');
     END IF;
   END LOOP;
 
