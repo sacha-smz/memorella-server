@@ -29,6 +29,16 @@ const controller = context => ({
     }
   },
 
+  editByPk: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const entry = await context.datamapper.updateByPk(id, req.body);
+      res.json({ data: entry });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   getDisplay: entry => {
     const privateFields = PRIVATE_FIELDS.get(context.name);
 

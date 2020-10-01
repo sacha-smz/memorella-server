@@ -6,3 +6,4 @@
 2020_09_25_1130_create_card_table 2020-09-25T09:11:35Z sacha-smz <sacha.zacaropoulos@gmail.com> # Create card table
 2020_09_28_1500_create_insert_deck_function 2020-09-28T15:50:15Z sacha-smz <sacha.zacaropoulos@gmail.com> # Add insert_deck function
 2020_09_29_1500_create_display_deck_function 2020-09-29T15:19:34Z sacha-smz <sacha.zacaropoulos@gmail.com> # Add display_deck function
+2020_10_01_1500_create_update_deck_function 2020-10-01T10:36:27Z sacha-smz <sacha.zacaropoulos@gmail.com> # Add update_deck function

@@ -10,7 +10,7 @@ DECLARE
                           COALESCE(json_agg(("card"."id", "card"."url", "card"."created_at", "card"."updated_at")::"deck_card")
                                    FILTER(WHERE "card"."id" IS NOT NULL), ''[]'') AS "cards"
                    FROM "deck"
-                   LEFT JOIN "card"
+                   LEFT JOIN "active_card" "card"
                    ON "deck"."id" = "card"."deck_id"';
 BEGIN
   "query" := "query" || "where"("filter") || ' GROUP BY "deck"."id"';

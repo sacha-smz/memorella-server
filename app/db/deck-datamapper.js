@@ -5,6 +5,7 @@ class DeckDatamapper extends DataMapper {
   static displayFields = ["id", "name", "created_at", "updated_at", "cards"];
   static hasInsertFn = true;
   static hasDisplayFn = true;
+  static hasUpdateOneFn = true;
 }
 
 module.exports = DeckDatamapper;
