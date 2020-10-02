@@ -8,7 +8,11 @@ const userController = require("../controllers/user-controller");
 
 const userRouter = express.Router();
 
-userRouter.post("/", validator(userSchema), userController.signup);
+userRouter.post(
+  "/",
+  validator(userSchema, { context: { action: "create" } }),
+  userController.signup
+);
 userRouter.get("/private", authMiddleware(), (_, res) => {
   res.json({ data: "Welcome to this private area" });
 });

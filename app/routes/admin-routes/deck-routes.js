@@ -8,7 +8,17 @@ const deckController = require("../../controllers/deck-controller");
 
 const deckRouter = express.Router();
 
-deckRouter.post("/", uploadMiddleware("cards"), validator(deckSchema), deckController.createOne);
-deckRouter.patch("/:id", uploadMiddleware("cards"), deckController.editByPk);
+deckRouter.post(
+  "/",
+  uploadMiddleware("cards"),
+  validator(deckSchema, { context: { action: "create" } }),
+  deckController.createOne
+);
+deckRouter.patch(
+  "/:id",
+  uploadMiddleware("cards"),
+  validator(deckSchema, { context: { action: "edit" } }),
+  deckController.editByPk
+);
 
 module.exports = deckRouter;
