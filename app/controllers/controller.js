@@ -23,6 +23,9 @@ const controller = context => ({
     try {
       const { id } = req.params;
       const entry = await context.datamapper.showByPk(id);
+
+      if (!entry) return next();
+
       res.json({ data: entry });
     } catch (err) {
       next(err);
@@ -33,6 +36,9 @@ const controller = context => ({
     try {
       const { id } = req.params;
       const entry = await context.datamapper.updateByPk(id, req.body);
+
+      if (!entry) return next();
+
       res.json({ data: entry });
     } catch (err) {
       next(err);
