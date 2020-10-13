@@ -88,10 +88,11 @@ class DataMapper {
     }
 
     const fields = Object.keys(update);
+    const [whereClause, filterValues] = parseFilter(filter, fields.length);
     const text = `UPDATE "${this.tableName}"
-                  SET (${fields}) = (${getPlaceHolders(fields)})${getWhereClause(filter)}
+                  SET (${fields}) = (${getPlaceHolders(fields)})${whereClause}
                   RETURNING ${this.displayFields}`;
-    return { text, values: Object.values(update) };
+    return { text, values: [...Object.values(update), ...filterValues] };
   }
 
   static async update(update, filter) {
@@ -112,13 +113,14 @@ class DataMapper {
     }
 
     const fields = Object.keys(update);
+    const [whereClause, filterValues] = parseFilter(filter, fields.length);
     const text = `UPDATE "${this.tableName}"
                   SET (${fields}) = (${getPlaceHolders(fields)})
-                  WHERE "id" = (SELECT "id" FROM "${this.tableName}" ${getWhereClause(filter)}
+                  WHERE "id" = (SELECT "id" FROM "${this.tableName}"${whereClause}
                                 ORDER BY "id" DESC
                                 LIMIT 1)
                   RETURNING ${this.displayFields}`;
-    return { text, values: Object.values(update) };
+    return { text, values: [...Object.values(update), ...filterValues] };
   }
 
   static async updateOne(update, filter) {
@@ -134,8 +136,11 @@ class DataMapper {
 
 module.exports = DataMapper;
 
-function getWhereClause(filter) {
-  return Object.entries(filter).reduce((clause, [field, { table, op, val }], i) => {
+function parseFilter(filter, valIndex = 0) {
+  let clause = "";
+  const values = [];
+
+  Object.entries(filter).forEach(([field, { table, op, val }], i) => {
     clause += i === 0 ? " WHERE " : " AND ";
 
     if (table) {
@@ -143,11 +148,12 @@ function getWhereClause(filter) {
     }
     clause += `"${field}" ${op}`;
     if (typeof val !== "undefined") {
-      clause += " " + val;
+      clause += " $" + ++valIndex;
+      values.push(val);
     }
+  });
 
-    return clause;
-  }, "");
+  return [clause, values];
 }
 
 function getPlaceHolders(fields) {
